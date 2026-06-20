@@ -10,7 +10,7 @@ import {
   Calendar, 
   ClipboardList,
   Clock,
-  LogOut
+  CreditCard
 } from "lucide-react";
 
 const menuItems = [
@@ -20,6 +20,7 @@ const menuItems = [
   { title: "Turnos", href: "/turno", icon: Calendar },
   { title: "Días Laborales", href: "/diaLaboral", icon: Clock },
   { title: "Excepciones", href: "/excepcionesLaborales", icon: ClipboardList },
+  { title: "Mercado Pago", href: "/admin/mercadopago", icon: CreditCard },
 ];
 
 export default function AdminSidebar() {

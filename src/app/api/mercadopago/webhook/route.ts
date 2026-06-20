@@ -1,11 +1,10 @@
 // app/api/mercadopago/webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import MercadoPagoConfig, { Payment } from "mercadopago";
+import { Payment } from "mercadopago";
+import { obtenerClienteMP } from "@/lib/mercadopago";
 
-const mp = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN!,
-});
+const mp = await obtenerClienteMP();
 
 // Mercado Pago envía las notificaciones como POST
 export async function POST(req: NextRequest) {

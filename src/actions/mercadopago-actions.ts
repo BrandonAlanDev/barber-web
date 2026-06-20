@@ -2,16 +2,12 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import MercadoPagoConfig, { Preference, Payment } from "mercadopago";
+import { Preference } from "mercadopago";
+import { obtenerClienteMP } from "@/lib/mercadopago";
 
 // ============================
 // CONFIGURACIÓN DEL CLIENTE MP
 // ============================
-const mp = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN!,
-  options: { timeout: 5000 },
-});
-
 export type ActionState = {
   success: boolean;
   error?: string;
@@ -57,8 +53,8 @@ export async function crearPreferenciaPago(turnoId: string): Promise<ActionState
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
-
     const isProduction = process.env.NODE_ENV === "production";
+    const mp = await obtenerClienteMP();
     const preference = new Preference(mp);
 
     const body = {
