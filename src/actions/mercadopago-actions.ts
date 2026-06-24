@@ -57,19 +57,26 @@ export async function crearPreferenciaPago(turnoId: string): Promise<ActionState
     const mp = await obtenerClienteMP();
     const preference = new Preference(mp);
 
+    const fechaHoraFormateada = new Date(turno.horarioReservado).toLocaleString("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      weekday: "long",        // "lunes", "martes", etc.
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const titulo = `Seña - ${turno.servicio.nombre}`;
+    const descripcion = `${turno.servicio.nombre} con ${turno.barbero.nombre} - ${fechaHoraFormateada} | 
+    Total: ARS ${Number(turno.precioCongelado).toFixed(2)} (Seña: ARS ${seniaAmount.toFixed(2)})`;
+
     const body = {
       items: [
         {
           id: turnoId,
-          title: `Seña - ${turno.servicio.nombre}`,
-          description: `Turno con ${turno.barbero.nombre} | ${turno.horarioReservado.toLocaleString("es-AR", {
-            timeZone: "America/Argentina/Buenos_Aires",
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`,
+          title: titulo,
+          description: descripcion,
           quantity: 1,
           unit_price: seniaAmount,
           currency_id: "ARS",
